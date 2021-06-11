@@ -1,16 +1,30 @@
 # pcost.py
 #
-# Exercise 1.27
-f = open('Data/portfolio.csv', 'rt')
-headers = next(f).split(',')
-total_cost = 0
+# Exercise 1.30 - 1.33
+import sys
+import csv
+def portfolio_cost(filename):
+    f = open(filename, 'rt')
+    rows = csv.reader(f)
+    headers = next(rows)
+    total_cost = 0
 
-for line in f:
-    row = line.split(',')
-    row[1] = int(row[1])
-    row[2] = float(row[2])
-    cost = row[1] * row[2]
-    total_cost = total_cost + cost
+    for row in rows:
+        try:
+            row[1] = int(row[1])
+            row[2] = float(row[2])
+            cost = row[1] * row[2]
+            total_cost = total_cost + cost
+        except ValueError:
+            print("Couldn't parse", row)
+        
+    f.close()
+    return total_cost
 
-print(f'Total cost: {total_cost:0.2f}')
-f.close()
+if len(sys.argv) == 2:
+    filename = sys.argv[1]
+else:
+    filename = 'Data/portfolio.csv'
+
+cost = portfolio_cost(filename)
+print(f'Total cost: {cost:0.2f}')
