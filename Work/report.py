@@ -6,7 +6,6 @@ import csv
 def read_portfolio(filename):
 
     portfolio = []
-
     with open(filename, 'rt') as f:
         rows = csv.reader(f)
         headers = next(rows)
@@ -22,22 +21,22 @@ def read_portfolio(filename):
 def read_prices(filename):
 
     prices = {}
-
     with open(filename, 'rt') as f:
         rows = csv.reader(f)
         for row in rows:
             try:
                 prices[row[0]] = float(row[1])
             except IndexError:
-                print('list index out of range', row)
+                # print('list index out of range', row)
+                pass
     
     return prices
 
 # Exercise 2.7
-total_gain = 0
-
 portfolio = read_portfolio('Data/portfolio.csv')
 prices = read_prices('Data/prices.csv')
+
+total_gain = 0
 
 for stock in portfolio:
     curr_price = prices[stock['name']]
