@@ -43,3 +43,24 @@ for stock in portfolio:
     total_gain += stock['shares'] * (curr_price - stock['price'])
 
 print(f'Total gain: {total_gain:0.2f}')
+
+# Exercise 2.9
+def make_report(portfolio, prices):
+
+    report = []
+    for stock in portfolio:
+        curr_price = prices[stock['name']]
+        change = curr_price - stock['price']
+        record = (stock['name'], stock['shares'], curr_price, change)
+        report.append(record)    
+
+    return report
+
+report = make_report(portfolio, prices)
+
+headers = ('Name', 'Shares', 'Price', 'Change')
+print(f'{headers[0]:>10s} {headers[1]:>10s} {headers[2]:>10s} {headers[3]:>10s}')
+print(('-'*10 + ' ')*4)
+
+for name, shares, price, change in report:    
+    print(f'{name:>10s} {shares:>10d} ${price:>10.2f} {change:>10.2f}')
