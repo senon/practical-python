@@ -4,7 +4,10 @@
 import csv
 
 def read_portfolio(filename):
-
+    '''
+    Read a stock portfolio file into a list of dictionaries with keys
+    name, shares, and price.
+    '''
     portfolio = []
     with open(filename, 'rt') as f:
         rows = csv.reader(f)
@@ -22,7 +25,9 @@ def read_portfolio(filename):
     return portfolio
 
 def read_prices(filename):
-
+    '''
+    Read a CSV file of price data into a dict mapping names to prices.
+    '''
     prices = {}
     with open(filename, 'rt') as f:
         rows = csv.reader(f)
@@ -36,7 +41,10 @@ def read_prices(filename):
     return prices
 
 def make_report(portfolio, prices):
-
+    '''
+    Make a list of (name, shares, price, change) tuples given a portfolio list
+    and prices dictionary.
+    '''
     report = []
     for stock in portfolio:
         curr_price = prices[stock['name']]
@@ -46,17 +54,26 @@ def make_report(portfolio, prices):
 
     return report
 
-portfolio = read_portfolio('Data/portfoliodate.csv')
-prices = read_prices('Data/prices.csv')
+def print_report(report):
+    '''
+    Print a nicely formated table from a list of (name, shares, price, change) tuples.
+    '''
+    headers = ('Name', 'Shares', 'Price', 'Change')
+    print('%10s %10s %10s %10s' % headers)
+    print(('-'*10 + ' ') * len(headers))
 
-report = make_report(portfolio, prices)
+    for row in report:
+        print('%10s %10d %10.2f %10.2f' % row)
 
-headers = ('Name', 'Shares', 'Price', 'Change')
-#print(f'{headers[0]:>10s} {headers[1]:>10s} {headers[2]:>10s} {headers[3]:>10s}')
-print('%10s %10s %10s %10s' % headers)
-print(('-'*10 + ' ') * len(headers))
+def portfolio_report(portfolio_filename, prices_filename):
+    '''
+    Make a stock report given portfolio and price data files.
+    '''
+    portfolio = read_portfolio(portfolio_filename)
+    prices = read_prices(prices_filename)
+    report = make_report(portfolio, prices)
+    print_report(report)
 
-# for name, shares, price, change in report:    
-#     print(f'{name:>10s} {shares:>10d} {price:>10.2f} {change:>10.2f}')
-for row in report:
-    print('%10s %10d %10.2f %10.2f' % row)
+
+portfolio_report('Data/portfolio.csv', 'Data/prices.csv')
+
