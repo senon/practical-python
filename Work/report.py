@@ -1,6 +1,6 @@
 # report.py
 #
-# Exercise 2.5
+# Exercise 2.16
 import csv
 
 def read_portfolio(filename):
@@ -11,11 +11,16 @@ def read_portfolio(filename):
         headers = next(rows)
         for row in rows:
             record = dict(zip(headers, row))
-            portfolio.append(record)    
+            stock = {
+                'name'  : record['name'],
+                'shares': int(record['shares']),
+                'price' : float(record['price'])
+            }
+
+            portfolio.append(stock)    
     
     return portfolio
 
-# Exercise 2.6
 def read_prices(filename):
 
     prices = {}
@@ -30,39 +35,28 @@ def read_prices(filename):
     
     return prices
 
-# Exercise 2.16
-portfolio = read_portfolio('Data/portfoliodate.csv')
-prices = read_prices('Data/prices.csv')
-
-total_gain = 0
-
-for stock in portfolio:
-    curr_price = prices[stock['name']]
-    nshares = int(stock['shares'])
-    price = float(stock['price'])
-    total_gain += nshares * (curr_price - price)
-
-print(f'Total gain: {total_gain:0.2f}')
-
-# Exercise 2.9
 def make_report(portfolio, prices):
 
     report = []
     for stock in portfolio:
         curr_price = prices[stock['name']]
-        price = float(stock['price'])
-        change = curr_price - price
-        nshares = int(stock['shares'])
-        record = (stock['name'], nshares, curr_price, change)
+        change = curr_price - stock['price']
+        record = (stock['name'], stock['shares'], curr_price, change)        
         report.append(record)    
 
     return report
 
+portfolio = read_portfolio('Data/portfoliodate.csv')
+prices = read_prices('Data/prices.csv')
+
 report = make_report(portfolio, prices)
 
 headers = ('Name', 'Shares', 'Price', 'Change')
-print(f'{headers[0]:>10s} {headers[1]:>10s} {headers[2]:>10s} {headers[3]:>10s}')
-print(('-'*10 + ' ')*4)
+#print(f'{headers[0]:>10s} {headers[1]:>10s} {headers[2]:>10s} {headers[3]:>10s}')
+print('%10s %10s %10s %10s' % headers)
+print(('-'*10 + ' ') * len(headers))
 
-for name, shares, price, change in report:    
-    print(f'{name:>10s} {shares:>10d} {price:>10.2f} {change:>10.2f}')
+# for name, shares, price, change in report:    
+#     print(f'{name:>10s} {shares:>10d} {price:>10.2f} {change:>10.2f}')
+for row in report:
+    print('%10s %10d %10.2f %10.2f' % row)
