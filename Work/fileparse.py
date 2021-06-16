@@ -5,7 +5,8 @@ import csv
 
 def parse_csv(filename, select=None, types=None, has_headers=True, delimiter=','):
     '''
-    Parse a CSV file into a list of records with type conversion.
+    Parse a CSV file into a list of records with selecting out columns of interest 
+    and type conversions.
     '''
     records = []
     with open(filename) as f:
