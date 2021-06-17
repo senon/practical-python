@@ -1,24 +1,19 @@
 # pcost.py
 #
 # Exercise 1.30 - 1.33
-import csv
+import report
+
 def portfolio_cost(filename):
     total_cost = 0
 
-    f = open(filename, 'rt')
-    rows = csv.reader(f)
-    headers = next(rows)
-    
-    for rowno, row in enumerate(rows, start=1):
-        record = dict(zip(headers, row))
+    portfolio = report.read_portfolio(filename)
+    for stockno, stock in enumerate(portfolio, start=1):
         try:
-            nshares = int(record['shares'])
-            price = float(record['price'])
-            total_cost += nshares * price
-        except ValueError:
-            print(f'Row {rowno}: Bad row: {row}')
-        
-    f.close()
+            total_cost += stock['shares'] * stock['price']
+        except ValueError as e:
+            print(f'Row {stockno}: {stock}')
+            print(f'Row {stockno}: Reason {e}')
+
     return total_cost
 
 import sys
