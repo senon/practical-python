@@ -2,7 +2,6 @@
 # report.py
 #
 # Exercise 2.16
-from sys import argv
 import fileparse 
 
 def read_portfolio(filename):
@@ -10,7 +9,8 @@ def read_portfolio(filename):
     Read a stock portfolio file into a list of dictionaries with keys
     name, shares, and price.
     '''
-    portfolio = fileparse.parse_csv(filename, select=['name','shares','price'], types=[str, int, float])
+    with open(filename, 'rt') as file:
+        portfolio = fileparse.parse_csv(file, select=['name','shares','price'], types=[str, int, float])
     
     return portfolio
 
@@ -18,7 +18,8 @@ def read_prices(filename):
     '''
     Read a CSV file of price data into a dict mapping names to prices.
     '''
-    prices = fileparse.parse_csv(filename, types=[str, float], has_headers=False)
+    with open(filename, 'rt') as file:
+        prices = fileparse.parse_csv(file, types=[str, float], has_headers=False)
     
     return dict(prices)
 
