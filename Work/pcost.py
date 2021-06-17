@@ -5,17 +5,21 @@
 import report
 
 def portfolio_cost(filename):
+    '''
+    Computes the total cost (shares*price) of a portfolio file
+    '''
     total_cost = 0
 
     portfolio = report.read_portfolio(filename)
-    for stockno, stock in enumerate(portfolio, start=1):
-        try:
-            total_cost += stock['shares'] * stock['price']
-        except ValueError as e:
-            print(f'Row {stockno}: {stock}')
-            print(f'Row {stockno}: Reason {e}')
+    return sum([ s['shares'] * s['price'] for s in portfolio ])
 
-    return total_cost
+    # for stockno, stock in enumerate(portfolio, start=1):
+    #     try:
+    #         total_cost += stock['shares'] * stock['price']
+    #     except ValueError as e:
+    #         print(f'Row {stockno}: {stock}')
+    #         print(f'Row {stockno}: Reason {e}')
+    # return total_cost
 
 def main(argv):
     if len(argv) != 2:
