@@ -1,6 +1,8 @@
+#!/usr/bin/env python3
 # report.py
 #
 # Exercise 2.16
+from sys import argv
 import fileparse 
 
 def read_portfolio(filename):
@@ -54,5 +56,17 @@ def portfolio_report(portfolio_filename, prices_filename):
     report = make_report(portfolio, prices)
     print_report(report)
 
-# portfolio_report('Data/portfolio.csv', 'Data/prices.csv')
+def main(argv):    
+    # portfolio_report('Data/portfolio.csv', 'Data/prices.csv')
+
+    if len(argv) != 3:
+        raise SystemExit(f'usage: {argv[0]} ' 'portfoliofile pricefile')
+
+    portfoliofile = argv[1]
+    pricefile = argv[2]
+    portfolio_report(portfoliofile, pricefile)
+
+if __name__ == '__main__':
+    import sys
+    main(sys.argv)
 
