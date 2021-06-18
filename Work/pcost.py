@@ -11,7 +11,7 @@ def portfolio_cost(filename):
     total_cost = 0
 
     portfolio = report.read_portfolio(filename)
-    return sum([ s.cost() for s in portfolio ])
+    return sum([ s.cost for s in portfolio ])
 
     # for stockno, stock in enumerate(portfolio, start=1):
     #     try:
