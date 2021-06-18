@@ -7,6 +7,10 @@ class Stock:
         self.shares = shares
         self.price = price
     
+    # Used with `repr()`
+    def __repr__(self) -> str:
+        return f'Stock({self.name}, {self.shares}, {self.price})'
+    
     def cost(self):
         return self.shares * self.price
     
