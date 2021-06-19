@@ -3,7 +3,6 @@
 #
 # Exercise 2.16
 import fileparse 
-import stock
 import tableformat
 from portfolio import Portfolio
 
@@ -12,22 +11,15 @@ def read_portfolio(filename, **opts):
     Read a stock portfolio file into a list of dictionaries with keys
     name, shares, and price.
     '''
-    with open(filename, 'rt') as file:
-        portdicts = fileparse.parse_csv(file, 
-                                        select=['name','shares','price'], 
-                                        types=[str, int, float],
-                                        **opts)    
+    with open(filename, 'rt') as lines:
+        return Portfolio.from_csv(lines)
     
-    # portfolio = [ stock.Stock(d['name'], d['shares'], d['price']) for d in portdicts ]
-    portfolio = [ stock.Stock(**d) for d in portdicts ]
-    return Portfolio(portfolio)
-
-def read_prices(filename):
+def read_prices(filename, **opts):
     '''
     Read a CSV file of price data into a dict mapping names to prices.
     '''
     with open(filename, 'rt') as file:
-        prices = fileparse.parse_csv(file, types=[str, float], has_headers=False)
+        prices = fileparse.parse_csv(file, types=[str, float], has_headers=False, **opts)
     
     return dict(prices)
 
@@ -71,15 +63,10 @@ def portfolio_report(portfolio_filename, prices_filename, fmt='txt'):
     print_report(report, formatter)
 
 def main(argv):    
-    # portfolio_report('Data/portfolio.csv', 'Data/prices.csv')
-
     if len(argv) != 4:
         raise SystemExit(f'usage: {argv[0]} ' 'portfoliofile pricefile fmt="txt"')
 
-    portfoliofile = argv[1]
-    pricefile = argv[2]
-    fmt = argv[3]
-    portfolio_report(portfoliofile, pricefile, fmt)
+    portfolio_report(argv[1], argv[2], argv[3])
 
 if __name__ == '__main__':
     import sys
