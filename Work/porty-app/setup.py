@@ -8,4 +8,5 @@ setuptools.setup(
     author_email="taehoon@gmail.com",
     description="Practical Python Code",
     packages=setuptools.find_packages(),
+    scripts=['print-report.py'],
 )
