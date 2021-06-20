@@ -2,7 +2,7 @@
 # pcost.py
 #
 # Exercise 1.30 - 1.33
-import report
+from . import report
 
 def portfolio_cost(filename):
     '''

@@ -2,9 +2,9 @@
 # report.py
 #
 # Exercise 2.16
-import fileparse 
-import tableformat
-from portfolio import Portfolio
+from . import fileparse 
+from . import tableformat
+from .portfolio import Portfolio
 
 def read_portfolio(filename, **opts):
     '''
